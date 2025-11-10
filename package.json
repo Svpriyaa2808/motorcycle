@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.7",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.76.1",
     "next": "16.0.0",
