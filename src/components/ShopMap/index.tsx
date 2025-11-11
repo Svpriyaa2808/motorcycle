@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import React, { useState, useEffect, useMemo } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface Address {
   city?: string;
@@ -31,57 +33,97 @@ interface MotorcycleShop {
 
 interface ShopMapProps {
   shops: MotorcycleShop[];
-  apiKey: string;
 }
 
-const containerStyle = {
-  width: '100%',
-  height: '600px',
-  borderRadius: '12px',
+// Custom marker icon
+const createCustomIcon = () => {
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `
+      <div style="
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #DC2626;
+        border: 3px solid white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      ">
+        <span style="font-size: 18px;">🏍️</span>
+      </div>
+    `,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
+  });
 };
 
-export default function ShopMap({ shops, apiKey }: ShopMapProps) {
-  const [selectedShop, setSelectedShop] = useState<MotorcycleShop | null>(null);
-  const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({ lat: 50.0, lng: 10.0 });
-  const [mapZoom, setMapZoom] = useState<number>(4);
+// Component to handle map bounds and center updates
+function MapBoundsHandler({ shops }: { shops: MotorcycleShop[] }) {
+  const map = useMap();
 
-  // Calculate map center based on shops
-  React.useEffect(() => {
-    if (shops.length > 0) {
-      const validShops = shops.filter(shop => shop.lat && shop.lon);
-      if (validShops.length > 0) {
-        const avgLat = validShops.reduce((sum, shop) => sum + (shop.lat || 0), 0) / validShops.length;
-        const avgLng = validShops.reduce((sum, shop) => sum + (shop.lon || 0), 0) / validShops.length;
-        setMapCenter({ lat: avgLat, lng: avgLng });
-        // Adjust zoom based on number of shops
-        setMapZoom(shops.length === 1 ? 12 : shops.length < 10 ? 8 : 6);
-      }
-    } else {
-      // Default to Europe center
-      setMapCenter({ lat: 50.0, lng: 10.0 });
-      setMapZoom(4);
+  useEffect(() => {
+    if (shops.length === 0) {
+      // Default to Europe view
+      map.setView([50.0, 10.0], 4);
+      return;
     }
-  }, [shops]);
 
-  const onMapLoad = useCallback((map: google.maps.Map) => {
-    // Optionally customize map on load
+    const validShops = shops.filter(shop => shop.lat && shop.lon);
+
+    if (validShops.length === 1) {
+      // Single shop - center on it
+      const shop = validShops[0];
+      map.setView([shop.lat!, shop.lon!], 12);
+    } else if (validShops.length > 1) {
+      // Multiple shops - fit bounds
+      const bounds = L.latLngBounds(
+        validShops.map(shop => [shop.lat!, shop.lon!] as [number, number])
+      );
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+    }
+  }, [shops, map]);
+
+  return null;
+}
+
+export default function ShopMap({ shops }: ShopMapProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
-  if (!apiKey || apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
+  // Calculate initial center and zoom
+  const { center, zoom } = useMemo(() => {
+    if (shops.length === 0) {
+      return { center: [50.0, 10.0] as [number, number], zoom: 4 };
+    }
+
+    const validShops = shops.filter(shop => shop.lat && shop.lon);
+    if (validShops.length === 0) {
+      return { center: [50.0, 10.0] as [number, number], zoom: 4 };
+    }
+
+    const avgLat = validShops.reduce((sum, shop) => sum + (shop.lat || 0), 0) / validShops.length;
+    const avgLng = validShops.reduce((sum, shop) => sum + (shop.lon || 0), 0) / validShops.length;
+
+    return {
+      center: [avgLat, avgLng] as [number, number],
+      zoom: validShops.length === 1 ? 12 : validShops.length < 10 ? 8 : 6,
+    };
+  }, [shops]);
+
+  // Don't render on server side to avoid hydration issues
+  if (!isMounted) {
     return (
-      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
-        <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <svg className="h-6 w-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <div className="ml-3">
-            <p className="text-sm text-yellow-700">
-              Please add your Google Maps API key to the <code className="bg-yellow-100 px-2 py-1 rounded">.env.local</code> file:
-              <br />
-              <code className="bg-yellow-100 px-2 py-1 rounded mt-2 block">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here</code>
-            </p>
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden" style={{ height: '600px' }}>
+        <div className="h-full flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading map...</p>
           </div>
         </div>
       </div>
@@ -89,78 +131,109 @@ export default function ShopMap({ shops, apiKey }: ShopMapProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      <LoadScript googleMapsApiKey={apiKey}>
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={mapCenter}
-          zoom={mapZoom}
-          onLoad={onMapLoad}
-          options={{
-            streetViewControl: false,
-            mapTypeControl: true,
-            fullscreenControl: true,
-          }}
-        >
-          {shops.map((shop) => {
-            if (!shop.lat || !shop.lon) return null;
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden" style={{ height: '600px' }}>
+      <MapContainer
+        center={center}
+        zoom={zoom}
+        style={{ height: '100%', width: '100%' }}
+        scrollWheelZoom={true}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-            return (
-              <Marker
-                key={shop.id}
-                position={{ lat: shop.lat, lng: shop.lon }}
-                onClick={() => setSelectedShop(shop)}
-                icon={{
-                  url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%23DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                  `),
-                  scaledSize: new window.google.maps.Size(32, 32),
-                }}
-              />
-            );
-          })}
+        <MapBoundsHandler shops={shops} />
 
-          {selectedShop && selectedShop.lat && selectedShop.lon && (
-            <InfoWindow
-              position={{ lat: selectedShop.lat, lng: selectedShop.lon }}
-              onCloseClick={() => setSelectedShop(null)}
+        {shops.map((shop) => {
+          if (!shop.lat || !shop.lon) return null;
+
+          return (
+            <Marker
+              key={shop.id}
+              position={[shop.lat, shop.lon]}
+              icon={createCustomIcon()}
             >
-              <div className="p-2 max-w-xs">
-                <h3 className="font-bold text-lg mb-2 text-gray-800">
-                  {selectedShop.name || 'Motorcycle Shop'}
-                </h3>
-                {selectedShop.address?.city && (
-                  <p className="text-sm text-gray-600 mb-1">
-                    📍 {selectedShop.address.street && `${selectedShop.address.street}, `}
-                    {selectedShop.address.city}
-                    {selectedShop.address.postcode && `, ${selectedShop.address.postcode}`}
-                  </p>
-                )}
-                {selectedShop.country_code && (
-                  <p className="text-sm text-gray-600 mb-2">
-                    🌍 {selectedShop.country_code}
-                  </p>
-                )}
-                {selectedShop.contact?.phone && (
-                  <p className="text-sm text-blue-600 mb-1">
-                    📞 <a href={`tel:${selectedShop.contact.phone}`}>{selectedShop.contact.phone}</a>
-                  </p>
-                )}
-                {selectedShop.contact?.website && (
-                  <p className="text-sm text-blue-600">
-                    🌐 <a href={selectedShop.contact.website} target="_blank" rel="noopener noreferrer" className="underline">
-                      Visit Website
-                    </a>
-                  </p>
-                )}
-              </div>
-            </InfoWindow>
-          )}
-        </GoogleMap>
-      </LoadScript>
+              <Popup maxWidth={300}>
+                <div className="p-2">
+                  <h3 className="font-bold text-lg mb-2 text-gray-800">
+                    {shop.name || 'Motorcycle Shop'}
+                  </h3>
+
+                  {shop.address?.city && (
+                    <p className="text-sm text-gray-600 mb-1">
+                      📍 {shop.address.street && `${shop.address.street}, `}
+                      {shop.address.city}
+                      {shop.address.postcode && `, ${shop.address.postcode}`}
+                    </p>
+                  )}
+
+                  {shop.country_code && (
+                    <p className="text-sm text-gray-600 mb-2">
+                      🌍 {shop.country_code}
+                    </p>
+                  )}
+
+                  {shop.contact?.phone && (
+                    <p className="text-sm text-blue-600 mb-1">
+                      📞 <a href={`tel:${shop.contact.phone}`} className="hover:underline">
+                        {shop.contact.phone}
+                      </a>
+                    </p>
+                  )}
+
+                  {shop.contact?.email && (
+                    <p className="text-sm text-blue-600 mb-1">
+                      ✉️ <a href={`mailto:${shop.contact.email}`} className="hover:underline">
+                        {shop.contact.email}
+                      </a>
+                    </p>
+                  )}
+
+                  {shop.contact?.website && (
+                    <p className="text-sm text-blue-600 mb-2">
+                      🌐 <a
+                        href={shop.contact.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        Visit Website
+                      </a>
+                    </p>
+                  )}
+
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${shop.lat},${shop.lon}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                  >
+                    View on Google Maps →
+                  </a>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
+      </MapContainer>
+
+      <style jsx global>{`
+        .leaflet-container {
+          font-family: inherit;
+        }
+        .custom-marker {
+          background: transparent;
+          border: none;
+        }
+        .leaflet-popup-content-wrapper {
+          border-radius: 8px;
+        }
+        .leaflet-popup-content {
+          margin: 0;
+          min-width: 250px;
+        }
+      `}</style>
     </div>
   );
 }

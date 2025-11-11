@@ -1,10 +1,25 @@
 'use client'
 
 import { useEffect, useState, useMemo } from "react";
+import dynamic from 'next/dynamic';
 import { supabase} from "../../../supabase/supabaseClient"
 import CountrySelector from "../CountrySelector";
-import ShopMap from "../ShopMap";
 import { EU_COUNTRIES } from "@/data/countries";
+
+// Dynamically import ShopMap to prevent SSR issues with Leaflet
+const ShopMap = dynamic(() => import('../ShopMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden" style={{ height: '600px' }}>
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading map...</p>
+        </div>
+      </div>
+    </div>
+  ),
+});
 
 // Define TypeScript types for your table
 interface Address {
@@ -39,8 +54,6 @@ export default function MotorcycleShops() {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
-
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY';
 
   useEffect(() => {
     async function fetchShops() {
@@ -187,7 +200,7 @@ export default function MotorcycleShops() {
         {/* Map View */}
         {viewMode === 'map' && (
           <div className="mb-8">
-            <ShopMap shops={filteredShops} apiKey={apiKey} />
+            <ShopMap shops={filteredShops} />
           </div>
         )}
 

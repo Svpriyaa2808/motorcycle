@@ -1,10 +1,10 @@
 # 🏍️ Motorcycle Repair Shops - European Directory
 
-A modern web application built with Next.js to help users find motorcycle repair shops across 27 European countries. Features interactive maps, country filtering, and comprehensive shop information.
+A modern, **100% FREE** web application built with Next.js to help users find motorcycle repair shops across 27 European countries. Features interactive maps, country filtering, and comprehensive shop information.
 
 ## ✨ Features
 
-- **🗺️ Interactive Google Maps** - Visualize all motorcycle repair shops on an interactive map
+- **🗺️ Interactive Maps** - Visualize all motorcycle repair shops on an interactive map
 - **🌍 Country Filtering** - Filter shops by any of the 27 EU countries
 - **🔍 Smart Search** - Search shops by name, city, or street address
 - **📱 Responsive Design** - Fully optimized for desktop, tablet, and mobile devices
@@ -12,13 +12,14 @@ A modern web application built with Next.js to help users find motorcycle repair
 - **📊 Real-time Statistics** - See shop counts and filtering results instantly
 - **🔄 Dual View Modes** - Switch between map view and list view
 - **📍 Direct Maps Integration** - Click to view any shop location on Google Maps
+- **💰 Completely FREE** - No API keys needed for maps, no billing, no limits!
 
 ## 🚀 Tech Stack
 
 - **Frontend**: Next.js 16, React 19, TypeScript
 - **Styling**: Tailwind CSS 4
-- **Database**: Supabase (PostgreSQL)
-- **Maps**: Google Maps API with @react-google-maps/api
+- **Database**: Supabase (PostgreSQL) - Free tier
+- **Maps**: Leaflet + OpenStreetMap - Completely FREE!
 - **Data Source**: OpenStreetMap (Overpass API)
 
 ## 📋 Prerequisites
@@ -27,8 +28,8 @@ Before you begin, ensure you have:
 
 - Node.js 18+ installed
 - npm or yarn package manager
-- A Supabase account and project
-- A Google Maps API key
+- A Supabase account and project (FREE!)
+- **No API keys needed for maps!**
 
 ## 🛠️ Installation
 
@@ -54,7 +55,7 @@ Before you begin, ensure you have:
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+   # No Google Maps API key needed! We use FREE OpenStreetMap
    ```
 
 4. **Set up Supabase database**
@@ -88,15 +89,17 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## 🗺️ Google Maps API Setup
+## 🗺️ About Maps - Completely FREE!
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the following APIs:
-   - Maps JavaScript API
-   - Geocoding API (optional)
-4. Create credentials (API Key)
-5. Add the API key to your `.env.local` file
+This application uses **OpenStreetMap** with **Leaflet** for maps:
+
+- ✅ **No API key required** - Works out of the box
+- ✅ **Completely FREE** - No billing, no credit card needed
+- ✅ **No usage limits** - Use as much as you want
+- ✅ **Open source** - Community-driven maps
+- ✅ **Professional quality** - Used by major companies worldwide
+
+**You don't need to do anything** - maps work automatically!
 
 ## 📁 Project Structure
 
