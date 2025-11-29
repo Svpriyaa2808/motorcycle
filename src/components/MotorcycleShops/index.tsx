@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useMemo } from "react";
 import dynamic from 'next/dynamic';
-import { supabase} from "../../../supabase/supabaseClient"
 import CountrySelector from "../CountrySelector";
 import { EU_COUNTRIES } from "@/data/countries";
+import { fetchMotorcycleShops } from "@/utils/csvParser";
 
 // Dynamically import ShopMap to prevent SSR issues with Leaflet
 const ShopMap = dynamic(() => import('../ShopMap'), {
@@ -56,20 +56,18 @@ export default function MotorcycleShops() {
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
 
   useEffect(() => {
-    async function fetchShops() {
-      const { data, error } = await supabase
-        .from("motorcycle_shops")
-        .select("*");
-
-      if (error) {
-        console.error("Error fetching data:", error);
-      } else if (data) {
-        setAllShops(data);
+    async function loadShops() {
+      try {
+        const shops = await fetchMotorcycleShops();
+        setAllShops(shops);
+      } catch (error) {
+        console.error("Error loading shops from CSV:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
-    fetchShops();
+    loadShops();
   }, []);
 
   // Filter shops based on selected country and search query

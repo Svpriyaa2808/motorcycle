@@ -1,0 +1,31 @@
+id,name,lat,lon,street,housenumber,postcode,city,country_code,phone,website,email
+1,Moto Expert Paris,48.8566,2.3522,Rue de Rivoli,45,75001,Paris,FR,+33 1 42 60 38 38,https://www.motoexpert.fr,contact@motoexpert.fr
+2,Berlin Bike Shop,52.5200,13.4050,Friedrichstraße,100,10117,Berlin,DE,+49 30 20458585,https://www.berlinbike.de,info@berlinbike.de
+3,Roma Moto Service,41.9028,12.4964,Via del Corso,350,00186,Rome,IT,+39 06 6789012,https://www.romamoto.it,service@romamoto.it
+4,Madrid Motorcycles,40.4168,-3.7038,Gran Vía,28,28013,Madrid,ES,+34 91 123 4567,https://www.madridmotos.es,info@madridmotos.es
+5,Amsterdam Two Wheels,52.3676,4.9041,Damrak,70,1012 LM,Amsterdam,NL,+31 20 1234567,https://www.amsterdambikes.nl,contact@amsterdambikes.nl
+6,Vienna Motorrad,48.2082,16.3738,Mariahilfer Straße,88,1070,Vienna,AT,+43 1 5234567,https://www.viennamotorrad.at,office@viennamotorrad.at
+7,Brussels Moto Center,50.8503,4.3517,Rue Neuve,120,1000,Brussels,BE,+32 2 219 2345,https://www.brusselsmoto.be,info@brusselsmoto.be
+8,Prague Bike Works,50.0755,14.4378,Václavské náměstí,15,110 00,Prague,CZ,+420 224 123 456,https://www.praguebikes.cz,service@praguebikes.cz
+9,Lisbon Motorcycle Hub,38.7223,-9.1393,Avenida da Liberdade,200,1250-147,Lisbon,PT,+351 21 123 4567,https://www.lisbonmoto.pt,contact@lisbonmoto.pt
+10,Copenhagen Cycles,55.6761,12.5683,Strøget,45,1160,Copenhagen,DK,+45 33 12 34 56,https://www.copenhagencycles.dk,info@copenhagencycles.dk
+11,Stockholm Moto AB,59.3293,18.0686,Drottninggatan,88,111 36,Stockholm,SE,+46 8 123 456 78,https://www.stockholmmoto.se,service@stockholmmoto.se
+12,Helsinki Motor Shop,60.1699,24.9384,Mannerheimintie,5,00100,Helsinki,FI,+358 9 1234 5678,https://www.helsinkimotors.fi,info@helsinkimotors.fi
+13,Warsaw Bike Center,52.2297,21.0122,Nowy Świat,35,00-029,Warsaw,PL,+48 22 123 45 67,https://www.warsawbikes.pl,contact@warsawbikes.pl
+14,Budapest Motor Service,47.4979,19.0402,Andrássy út,60,1062,Budapest,HU,+36 1 234 5678,https://www.budapestmoto.hu,service@budapestmoto.hu
+15,Athens Moto Repairs,37.9838,23.7275,Ermou,120,105 63,Athens,GR,+30 21 0123 4567,https://www.athensmoto.gr,info@athensmoto.gr
+16,Dublin Motorcycle Works,53.3498,-6.2603,O'Connell Street,45,D01 F5P2,Dublin,IE,+353 1 234 5678,https://www.dublinmoto.ie,contact@dublinmoto.ie
+17,Munich Motorrad Haus,48.1351,11.5820,Leopoldstraße,150,80804,Munich,DE,+49 89 12345678,https://www.munichmotorrad.de,info@munichmotorrad.de
+18,Lyon Moto Passion,45.7640,4.8357,Rue de la République,85,69002,Lyon,FR,+33 4 78 12 34 56,https://www.lyonmoto.fr,contact@lyonmoto.fr
+19,Barcelona Motos,41.3851,2.1734,Passeig de Gràcia,92,08008,Barcelona,ES,+34 93 123 4567,https://www.barcelonamotos.es,info@barcelonamotos.es
+20,Milan Moto Center,45.4642,9.1900,Corso Buenos Aires,15,20124,Milan,IT,+39 02 1234567,https://www.milanmoto.it,service@milanmoto.it
+21,Hamburg Bike Shop,53.5511,9.9937,Mönckebergstraße,12,20095,Hamburg,DE,+49 40 12345678,https://www.hamburgbikes.de,info@hamburgbikes.de
+22,Marseille Moto,43.2965,5.3698,La Canebière,65,13001,Marseille,FR,+33 4 91 12 34 56,https://www.marseillemoto.fr,contact@marseillemoto.fr
+23,Porto Motorcycle Service,41.1579,-8.6291,Rua de Santa Catarina,300,4000-442,Porto,PT,+351 22 123 4567,https://www.portomoto.pt,info@portomoto.pt
+24,Krakow Moto Center,50.0647,19.9450,Floriańska,15,31-019,Krakow,PL,+48 12 123 45 67,https://www.krakowmoto.pl,service@krakowmoto.pl
+25,Rotterdam Bike Works,51.9244,4.4777,Coolsingel,100,3012 AG,Rotterdam,NL,+31 10 1234567,https://www.rotterdambikes.nl,contact@rotterdambikes.nl
+26,Zurich Motorrad,47.3769,8.5417,Bahnhofstrasse,50,8001,Zurich,CH,+41 44 123 45 67,https://www.zurichmotorrad.ch,info@zurichmotorrad.ch
+27,Oslo Motorcycle AS,59.9139,10.7522,Karl Johans gate,22,0159,Oslo,NO,+47 22 12 34 56,https://www.oslomoto.no,post@oslomoto.no
+28,Bratislava Moto,48.1486,17.1077,Obchodná,50,811 06,Bratislava,SK,+421 2 1234 5678,https://www.bratislavamoto.sk,info@bratislavamoto.sk
+29,Ljubljana Motorcycles,46.0569,14.5058,Čopova ulica,3,1000,Ljubljana,SI,+386 1 234 5678,https://www.ljubljanamotorcycles.si,info@ljubljanamotorcycles.si
+30,Tallinn Motor Service,59.4370,24.7536,Viru väljak,4,10111,Tallinn,EE,+372 123 4567,https://www.tallinnmotors.ee,service@tallinnmotors.ee
