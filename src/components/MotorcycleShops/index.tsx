@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import dynamic from 'next/dynamic';
-import { supabase} from "../../../supabase/supabaseClient"
+import { fetchCSVData } from "@/utils/csvParser";
 import CountrySelector from "../CountrySelector";
 import { EU_COUNTRIES } from "@/data/countries";
 
@@ -57,14 +57,11 @@ export default function MotorcycleShops() {
 
   useEffect(() => {
     async function fetchShops() {
-      const { data, error } = await supabase
-        .from("motorcycle_shops")
-        .select("*");
-
-      if (error) {
-        console.error("Error fetching data:", error);
-      } else if (data) {
+      try {
+        const data = await fetchCSVData();
         setAllShops(data);
+      } catch (error) {
+        console.error("Error fetching CSV data:", error);
       }
       setLoading(false);
     }
@@ -307,7 +304,7 @@ export default function MotorcycleShops() {
       {/* Footer */}
       <footer className="bg-white mt-12 border-t">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-600">
-          <p>Data sourced from OpenStreetMap contributors</p>
+          <p>Data loaded from CSV file</p>
           <p className="text-sm mt-2">Find the best motorcycle repair shops across Europe</p>
         </div>
       </footer>
