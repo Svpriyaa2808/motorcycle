@@ -1,0 +1,11 @@
+id,name,country_code,lat,lon,city,street,housenumber,postcode,phone,website,email
+1,BMW Motorrad Berlin,DE,52.5200,13.4050,Berlin,Hauptstraße,123,10115,+49 30 12345678,https://bmw-motorrad-berlin.de,info@bmw-motorrad-berlin.de
+2,Paris Moto Service,FR,48.8566,2.3522,Paris,Rue de Rivoli,45,75001,+33 1 42 60 12 34,https://paris-moto.fr,contact@paris-moto.fr
+3,Milano Motorcycle Repair,IT,45.4642,9.1900,Milano,Via Dante,67,20121,+39 02 1234567,https://milano-moto.it,info@milano-moto.it
+4,Madrid Motos,ES,40.4168,-3.7038,Madrid,Calle Mayor,89,28013,+34 91 123 4567,https://madrid-motos.es,ventas@madrid-motos.es
+5,Hamburg Bike Shop,DE,53.5511,9.9937,Hamburg,Reeperbahn,12,20359,+49 40 98765432,https://hamburg-bikes.de,shop@hamburg-bikes.de
+6,Lyon Motorcycle Center,FR,45.7640,4.8357,Lyon,Avenue Jean Jaurès,34,69007,+33 4 78 12 34 56,https://lyon-moto.fr,contact@lyon-moto.fr
+7,Rome Moto Workshop,IT,41.9028,12.4964,Rome,Via Veneto,56,00187,+39 06 7654321,https://rome-moto.it,workshop@rome-moto.it
+8,Barcelona Motorcycles,ES,41.3851,2.1734,Barcelona,Passeig de Gràcia,78,08008,+34 93 876 5432,https://barcelona-motos.es,info@barcelona-motos.es
+9,Munich Motorrad,DE,48.1351,11.5820,Munich,Leopoldstraße,90,80802,+49 89 11223344,https://munich-motorrad.de,service@munich-motorrad.de
+10,Nice Moto Repair,FR,43.7102,7.2620,Nice,Promenade des Anglais,123,06000,+33 4 93 88 77 66,https://nice-moto.fr,repair@nice-moto.fr
