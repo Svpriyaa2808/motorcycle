@@ -54,7 +54,26 @@ export function parseCSV(csvText: string): MotorcycleShop[] {
   const data: MotorcycleShop[] = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',').map(v => v.trim());
+    const line = lines[i];
+
+    // Parse CSV line respecting quotes
+    const values: string[] = [];
+    let currentValue = '';
+    let insideQuotes = false;
+
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+
+      if (char === '"') {
+        insideQuotes = !insideQuotes;
+      } else if (char === ',' && !insideQuotes) {
+        values.push(currentValue.trim());
+        currentValue = '';
+      } else {
+        currentValue += char;
+      }
+    }
+    values.push(currentValue.trim());
 
     // Create object from headers and values
     const row: any = {};
@@ -62,22 +81,62 @@ export function parseCSV(csvText: string): MotorcycleShop[] {
       row[header] = values[index] || '';
     });
 
+    // Extract country code from city field (format: "City, Country")
+    let cityName = row.city || '';
+    let countryName = '';
+    if (cityName.includes(',')) {
+      const parts = cityName.split(',');
+      cityName = parts[0].trim();
+      countryName = parts[1]?.trim() || '';
+    }
+
+    // Map country names to codes
+    const countryCodeMap: Record<string, string> = {
+      'France': 'FR',
+      'Germany': 'DE',
+      'Italy': 'IT',
+      'Spain': 'ES',
+      'Netherlands': 'NL',
+      'Belgium': 'BE',
+      'Austria': 'AT',
+      'Poland': 'PL',
+      'Portugal': 'PT',
+      'Greece': 'GR',
+      'Czech Republic': 'CZ',
+      'Hungary': 'HU',
+      'Sweden': 'SE',
+      'Denmark': 'DK',
+      'Finland': 'FI',
+      'Ireland': 'IE',
+      'Romania': 'RO',
+      'Bulgaria': 'BG',
+      'Croatia': 'HR',
+      'Slovakia': 'SK',
+      'Slovenia': 'SI',
+      'Lithuania': 'LT',
+      'Latvia': 'LV',
+      'Estonia': 'EE',
+      'Luxembourg': 'LU',
+      'Malta': 'MT',
+      'Cyprus': 'CY',
+    };
+
     // Transform CSV row to MotorcycleShop format
     const shop: MotorcycleShop = {
-      id: parseInt(row.id) || 0,
+      id: row.id ? parseInt(row.id) : i,
       name: row.name || undefined,
-      lat: row.lat ? parseFloat(row.lat) : undefined,
-      lon: row.lon ? parseFloat(row.lon) : undefined,
-      country_code: row.country_code || undefined,
+      lat: row.latitude ? parseFloat(row.latitude) : (row.lat ? parseFloat(row.lat) : undefined),
+      lon: row.longitude ? parseFloat(row.longitude) : (row.lon ? parseFloat(row.lon) : undefined),
+      country_code: row.country_code || countryCodeMap[countryName] || undefined,
       address: {
-        city: row.city || undefined,
-        street: row.street || undefined,
+        city: cityName || row.city || undefined,
+        street: row.address || row.street || undefined,
         housenumber: row.housenumber || undefined,
         postcode: row.postcode || undefined,
       },
       contact: {
         phone: row.phone || undefined,
-        website: row.website || undefined,
+        website: row.website !== 'N/A' ? row.website : undefined,
         email: row.email || undefined,
       },
     };
@@ -88,7 +147,7 @@ export function parseCSV(csvText: string): MotorcycleShop[] {
   return data;
 }
 
-export async function fetchCSVData(csvPath: string = '/data/motorcycle_shops.csv'): Promise<MotorcycleShop[]> {
+export async function fetchCSVData(csvPath: string = '/data/eu_motorcycle_repairs.csv'): Promise<MotorcycleShop[]> {
   try {
     const response = await fetch(csvPath);
 
