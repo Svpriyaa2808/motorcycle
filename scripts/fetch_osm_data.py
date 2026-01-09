@@ -53,14 +53,28 @@ except Exception as e:
     print("   Please check your credentials in .env.local")
     exit(1)
 
-# ---------- EU country codes ----------
-EU_COUNTRIES = [
-    "DE", "FR", "IT", "ES", "PL", "NL", "SE", "FI", "BE", "AT", "CZ", "SK",
-    "HU", "PT", "IE", "DK", "EE", "LT", "LV", "SI", "HR", "RO", "BG",
-    "CY", "LU", "MT", "EL"
+# ---------- Worldwide country codes ----------
+COUNTRIES = [
+    # Europe
+    "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU",
+    "IS", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "NO", "PL", "PT", "RO", "RS",
+    "SK", "SI", "ES", "SE", "CH", "TR", "UA", "GB",
+    # North America
+    "CA", "MX", "US",
+    # Central & South America
+    "AR", "BR", "CL", "CO", "CR", "PE", "UY", "VE",
+    # Asia
+    "BD", "KH", "CN", "IN", "ID", "JP", "MY", "NP", "PK", "PH", "SG", "KR", "LK",
+    "TW", "TH", "VN",
+    # Middle East
+    "AE", "IL", "SA",
+    # Oceania
+    "AU", "NZ",
+    # Africa
+    "EG", "KE", "MA", "NG", "ZA", "TZ",
 ]
 
-print(f"📍 Fetching data for {len(EU_COUNTRIES)} EU countries")
+print(f"📍 Fetching data for {len(COUNTRIES)} countries worldwide")
 print("")
 
 # ---------- Helper function to fetch data ----------
@@ -119,7 +133,7 @@ total_shops = 0
 successful_countries = 0
 failed_countries = []
 
-for code in EU_COUNTRIES:
+for code in COUNTRIES:
     try:
         data = fetch_overpass_data(code)
         records = format_records(data, code)
@@ -153,7 +167,7 @@ print("")
 print("=" * 60)
 print("🎉 Data Fetch Complete!")
 print("=" * 60)
-print(f"✅ Successfully processed: {successful_countries}/{len(EU_COUNTRIES)} countries")
+print(f"✅ Successfully processed: {successful_countries}/{len(COUNTRIES)} countries")
 print(f"📊 Total shops inserted: {total_shops}")
 
 if failed_countries:

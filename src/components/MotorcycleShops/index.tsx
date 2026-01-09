@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import dynamic from 'next/dynamic';
 import { fetchCSVData } from "@/utils/csvParser";
 import CountrySelector from "../CountrySelector";
-import { EU_COUNTRIES } from "@/data/countries";
+import { COUNTRIES } from "@/data/countries";
 
 // Dynamically import ShopMap to prevent SSR issues with Leaflet
 const ShopMap = dynamic(() => import('../ShopMap'), {
@@ -95,7 +95,7 @@ export default function MotorcycleShops() {
   // Get country name from code
   const getCountryName = (code?: string) => {
     if (!code) return '';
-    const country = EU_COUNTRIES.find(c => c.code === code);
+    const country = COUNTRIES.find(c => c.code === code);
     return country ? `${country.flag} ${country.name}` : code;
   };
 
@@ -121,7 +121,7 @@ export default function MotorcycleShops() {
                 🏍️ Motorcycle Repair Shops
               </h1>
               <p className="text-gray-600 mt-2">
-                Find trusted motorcycle repair shops across Europe
+                Find trusted motorcycle repair shops worldwide
               </p>
             </div>
             <div className="text-right">
@@ -305,7 +305,7 @@ export default function MotorcycleShops() {
       <footer className="bg-white mt-12 border-t">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-600">
           <p>Data loaded from CSV file</p>
-          <p className="text-sm mt-2">Find the best motorcycle repair shops across Europe</p>
+          <p className="text-sm mt-2">Find the best motorcycle repair shops worldwide</p>
         </div>
       </footer>
     </div>

@@ -90,35 +90,93 @@ export function parseCSV(csvText: string): MotorcycleShop[] {
       countryName = parts[1]?.trim() || '';
     }
 
-    // Map country names to codes
+    // Map country names to codes (worldwide coverage)
     const countryCodeMap: Record<string, string> = {
-      'France': 'FR',
-      'Germany': 'DE',
-      'Italy': 'IT',
-      'Spain': 'ES',
-      'Netherlands': 'NL',
-      'Belgium': 'BE',
+      // Europe
       'Austria': 'AT',
-      'Poland': 'PL',
-      'Portugal': 'PT',
-      'Greece': 'GR',
-      'Czech Republic': 'CZ',
-      'Hungary': 'HU',
-      'Sweden': 'SE',
-      'Denmark': 'DK',
-      'Finland': 'FI',
-      'Ireland': 'IE',
-      'Romania': 'RO',
+      'Belgium': 'BE',
       'Bulgaria': 'BG',
       'Croatia': 'HR',
-      'Slovakia': 'SK',
-      'Slovenia': 'SI',
-      'Lithuania': 'LT',
-      'Latvia': 'LV',
+      'Cyprus': 'CY',
+      'Czech Republic': 'CZ',
+      'Denmark': 'DK',
       'Estonia': 'EE',
+      'Finland': 'FI',
+      'France': 'FR',
+      'Germany': 'DE',
+      'Greece': 'GR',
+      'Hungary': 'HU',
+      'Iceland': 'IS',
+      'Ireland': 'IE',
+      'Italy': 'IT',
+      'Latvia': 'LV',
+      'Lithuania': 'LT',
       'Luxembourg': 'LU',
       'Malta': 'MT',
-      'Cyprus': 'CY',
+      'Netherlands': 'NL',
+      'Norway': 'NO',
+      'Poland': 'PL',
+      'Portugal': 'PT',
+      'Romania': 'RO',
+      'Serbia': 'RS',
+      'Slovakia': 'SK',
+      'Slovenia': 'SI',
+      'Spain': 'ES',
+      'Sweden': 'SE',
+      'Switzerland': 'CH',
+      'Turkey': 'TR',
+      'Ukraine': 'UA',
+      'United Kingdom': 'GB',
+
+      // North America
+      'Canada': 'CA',
+      'Mexico': 'MX',
+      'United States': 'US',
+
+      // Central & South America
+      'Argentina': 'AR',
+      'Brazil': 'BR',
+      'Chile': 'CL',
+      'Colombia': 'CO',
+      'Costa Rica': 'CR',
+      'Peru': 'PE',
+      'Uruguay': 'UY',
+      'Venezuela': 'VE',
+
+      // Asia
+      'Bangladesh': 'BD',
+      'Cambodia': 'KH',
+      'China': 'CN',
+      'India': 'IN',
+      'Indonesia': 'ID',
+      'Japan': 'JP',
+      'Malaysia': 'MY',
+      'Nepal': 'NP',
+      'Pakistan': 'PK',
+      'Philippines': 'PH',
+      'Singapore': 'SG',
+      'South Korea': 'KR',
+      'Sri Lanka': 'LK',
+      'Taiwan': 'TW',
+      'Thailand': 'TH',
+      'Vietnam': 'VN',
+
+      // Middle East
+      'United Arab Emirates': 'AE',
+      'Israel': 'IL',
+      'Saudi Arabia': 'SA',
+
+      // Oceania
+      'Australia': 'AU',
+      'New Zealand': 'NZ',
+
+      // Africa
+      'Egypt': 'EG',
+      'Kenya': 'KE',
+      'Morocco': 'MA',
+      'Nigeria': 'NG',
+      'South Africa': 'ZA',
+      'Tanzania': 'TZ',
     };
 
     // Transform CSV row to MotorcycleShop format

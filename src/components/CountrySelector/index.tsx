@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { EU_COUNTRIES, Country } from '@/data/countries';
+import { COUNTRIES, Country } from '@/data/countries';
 
 interface CountrySelectorProps {
   selectedCountry: string | null;
@@ -23,7 +23,7 @@ export default function CountrySelector({ selectedCountry, onCountryChange }: Co
             className="w-full px-4 py-3 rounded-lg border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white text-gray-800 font-medium"
           >
             <option value="all">🌍 All Countries</option>
-            {EU_COUNTRIES.map((country) => (
+            {COUNTRIES.map((country) => (
               <option key={country.code} value={country.code}>
                 {country.flag} {country.name}
               </option>
@@ -46,7 +46,7 @@ export default function CountrySelector({ selectedCountry, onCountryChange }: Co
               🌍 All
             </button>
 
-            {EU_COUNTRIES.map((country: Country) => (
+            {COUNTRIES.map((country: Country) => (
               <button
                 key={country.code}
                 onClick={() => onCountryChange(country.code)}

@@ -66,8 +66,8 @@ function MapBoundsHandler({ shops }: { shops: MotorcycleShop[] }) {
 
   useEffect(() => {
     if (shops.length === 0) {
-      // Default to Europe view
-      map.setView([50.0, 10.0], 4);
+      // Default to global view
+      map.setView([20.0, 0.0], 2);
       return;
     }
 
@@ -99,12 +99,12 @@ export default function ShopMap({ shops }: ShopMapProps) {
   // Calculate initial center and zoom
   const { center, zoom } = useMemo(() => {
     if (shops.length === 0) {
-      return { center: [50.0, 10.0] as [number, number], zoom: 4 };
+      return { center: [20.0, 0.0] as [number, number], zoom: 2 };
     }
 
     const validShops = shops.filter(shop => shop.lat && shop.lon);
     if (validShops.length === 0) {
-      return { center: [50.0, 10.0] as [number, number], zoom: 4 };
+      return { center: [20.0, 0.0] as [number, number], zoom: 2 };
     }
 
     const avgLat = validShops.reduce((sum, shop) => sum + (shop.lat || 0), 0) / validShops.length;
